@@ -1,0 +1,297 @@
+@font-face {
+  font-family: 'Foundry Gridnik W03 Medium';
+  src: url('/static/assets/Foundry_Gridnik_W03_Medium.ttf') format('truetype');
+}
+
+* {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+body {
+    font-family: 'Foundry Gridnik W03 Medium', sans-serif;
+    color: #D1CFCC;
+}
+
+button {
+    --c: #A6A2BC;
+    --s: 0.9;
+    box-shadow: var(--c) inset 0 0 0 .1em;
+    background: linear-gradient(var(--c), var(--c)) no-repeat, linear-gradient(var(--c), var(--c)) no-repeat right;
+    background-size: 0 100%;
+    transition: background-size .4s ease, transform .3s cubic-bezier(.3, 3, 0, 1), color .4s ease;
+    padding: .1em .6em;
+    font-size: 3.5rem;
+    font-weight: bold;
+    letter-spacing: .3rem;
+    border: none;
+    color: #8C8479;
+}
+
+button.play_button {
+    --c: #5C5AD8;
+    color: #5C5AD8;
+}
+
+button:hover {
+    border: none;
+    background-size: 100% 100%;
+    transition: background-size .4s ease, transform .3s cubic-bezier(.3, 3, 0, 1), color .4s ease;
+    color: #030711;
+}
+
+button:active {
+    border: none;
+    box-shadow: 0 0 0 100em inset #0009;
+    transform: scale(var(--s));
+    transition: background-size .4s ease, transform .5s cubic-bezier(0, 0.5, 0, 0.85), color 1s ease;
+}
+
+input {
+    background-color: #E2E2E2;
+    border: 1px solid inherit;
+    padding: .3em .6em;
+}
+
+input:focus {
+    outline: none;
+}
+
+#container {
+    width: 120px;
+    height: 120px;
+    border: 16px solid #D1CFCC;
+    position: relative;
+    overflow: hidden;
+}
+
+#movingSquare {
+    width: 16px;
+    height: 16px;
+    background-color: #D1CFCC;
+    position: absolute;
+}
+
+#pfp {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#player_username {
+    font-size: xxx-large;
+}
+
+#friends {
+    transition: transform .3s cubic-bezier(.3, 3, 0, 1);
+}
+
+#friends:active {
+    transform: scale(0.91);
+    transition: .5s cubic-bezier(0, 0.5, 0, 0.85);
+}
+
+#friends.release {
+    background-color: #A6A2BC;
+}
+
+#friends_popup button {
+    --c: black;
+    display: flex;
+    padding: .2em;
+    align-items: end;
+    box-shadow: var(--c) inset 0 0 0 .05em;
+}
+
+#friends.release button {
+    color: #030711;
+}
+
+.friend {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: larger;
+    font-weight: bold;
+}
+
+.cross {
+    height: .25em;
+}
+
+.tab {
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.tab a {
+    background-color: inherit;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+}
+
+.tab a.active {
+    background-color: #737082;
+}
+
+.tablinks {
+    width: 50%;
+}
+
+.hist_entry {
+    display: flex;
+    flex-direction: column;
+    border : 1px solid black;
+    padding: 2em 1em;
+    font-size: large;
+    gap: 2em;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.summary {
+    display: flex;
+    justify-content: center;
+    font-weight: bolder;
+    gap: 6em;
+}
+
+.scores {
+    font-size: 150px;
+    margin: -5rem 0 -5rem 0;
+}
+
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: black;
+}
+
+.left_score{
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-left: 8vw;
+    padding-top: 42vh;
+    font-size: 14em;
+    pointer-events: none;
+}
+
+.right_score {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-right: 8vw;
+    padding-top: 42vh;
+    font-size: 14em;
+    pointer-events: none;
+}
+
+.starting_timer {
+    position: absolute;
+    top: 18vh;
+    left: 0;
+    font-size: xxx-large;
+    width: 100vw;
+    color: #030711;
+    text-align: center;
+    z-index: 0;
+}
+
+.victory_message {
+    font-size: xxx-large;
+    color: #030711;
+    text-align: center;
+}
+
+.analytics::-webkit-scrollbar {
+  display: none;
+}
+
+.match_history {
+    border: 1px solid #000000;
+    border-radius: 12px;
+    padding: 0 6px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.winning_game {
+    background-color: rgba(241, 106, 147, 0.7);
+}
+
+.losing_game {
+    background-color: #63a0ff;
+}
+
+.info_player_username {
+    margin-right: 12px;
+}
+
+#playground {
+    box-sizing: content-box;
+    background-color: #A6A2BC;
+    border-right: 1em solid #A6A2BC;
+    border-left: 1em solid #A6A2BC;
+}
+
+.tournament_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.inputs_wrapper {
+    display: flex;
+    gap: 1em;
+}
+
+.fait_toi_plaiz {
+    box-sizing: content-box;
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr;
+    place-items: center;
+    place-content: center;
+    min-width: 40vw;
+    padding: 4vmin 2vmin;
+    border: .1em solid #5C5AD8;
+    font-size: 5rem;
+}
+
+#score_table {
+    box-sizing: content-box;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 1em;
+    align-content: center;
+    min-width: 40vw;
+    font-size: 5rem;
+}
+
+.player_score {
+    display: flex;
+    justify-content: space-between;
+    border: .1em solid #5C5AD8;
+    padding: 1em;
+}
+
+#la_kaka {
+    position: absolute;
+    top: 30vh;
+    max-width: 75vh;
+}
+
+#players_username {
+    font-size: xx-large;
+    position: absolute;
+    top: 90vh;
+}

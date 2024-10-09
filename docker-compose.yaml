@@ -1,0 +1,105 @@
+services:
+  postgres:
+    container_name: postgres
+    build:
+      context: ./postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - db-socket:/var/run/postgresql
+    networks:
+      - transcendence
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - POSTGRES_DB=transcendence
+      - POSTGRES_USER=postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-U", "postgres", "-d", "transcendence"]
+      start_period: 10s
+      start_interval: 5s
+      interval: 1m30s
+      timeout: 3s
+      retries: 3
+  redis:
+    container_name: redis
+    image: redis:7.2.4-alpine
+    networks:
+      - transcendence
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      start_period: 10s
+      start_interval: 5s
+      interval: 1m30s
+      timeout: 3s
+      retries: 3
+  django:
+    container_name: django
+    build:
+      context: ./transcendence
+    volumes:
+      - static-files:/home/shared
+    networks:
+      - transcendence
+    restart: unless-stopped
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "--insecure", "--fail", "https://localhost:43443"]
+      start_period: 25s
+      start_interval: 5s
+      interval: 1m30s
+      timeout: 3s
+      retries: 3
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+    volumes:
+      - static-files:/var/www/data
+    networks:
+      - transcendence
+    ports:
+      - 8080:8080
+    depends_on:
+      django:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "--insecure", "--fail", "https://localhost:8080/static/home_page.html"]
+      start_period: 25s
+      start_interval: 5s
+      interval: 1m30s
+      timeout: 3s
+      retries: 3
+  pong-serv:
+    container_name: pong-serv
+    build:
+      context: ./pong-serv
+    volumes:
+      - ./pong-serv/log:/var/log/pong
+      - db-socket:/var/run/postgresql
+    ports:
+      - 8081:8081
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "nc -W 1 127.0.0.1 8081 < health_check"]
+      start_period: 25s
+      start_interval: 5s
+      interval: 1m30s
+      timeout: 3s
+      retries: 3
+
+networks:
+  transcendence:
+
+volumes:
+  db-data:
+  db-socket:
+  static-files:
